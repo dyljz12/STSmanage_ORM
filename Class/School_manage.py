@@ -4,6 +4,8 @@ from sqlalchemy import Column, Integer, String, Date, Boolean
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationships, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
+from Views import  Views_manage
+
 
 def class_school():
     # 配置连接的数据库
@@ -28,6 +30,7 @@ def class_school():
         name_teacher = Column(String(8))
         name_course = Column(String(8), primary_key=True)
         price_course = Column(String(8))
+
 
 
     Base.metadata.create_all(engin)
@@ -105,7 +108,7 @@ def class_school():
 
 
     elif school_choose == '4':
-        pass
+        Views_manage.start_view()
     else:
         print('输入有误，请重新输入')
         class_school()
