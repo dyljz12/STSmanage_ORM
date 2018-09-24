@@ -39,7 +39,7 @@ def class_school():
     session = sessionclass()
 
     print('********学校管理系统********')
-    school_choose = input('请选择操作： \n1.增加学校 \n2.删除学校 \n3.学校管理 \n4.返回学校管理系统')
+    school_choose = input('请选择操作： \n1.增加学校 \n2.删除学校 \n3.学校管理 \n4.返回管理系统')
     if school_choose == '1':
         name_school_add = input('请输入要增加的学校名称')
         address_school_add = input('请输入要增加的学校地址')
@@ -66,6 +66,8 @@ def class_school():
         class_school()
 
     elif school_choose == '3':
+
+
         print('目前开设的学校')
         obj4 = session.query(School.name_school).all()
         i=1
@@ -76,35 +78,38 @@ def class_school():
             i=i+1
             school_list.append(sc[0])
         school_choose2=input('请选择要管理的学校编码：')
-        school_choose_manage=input('请选择管理内容：\n1.招聘老师\n2.解雇老师\n3.开设课程\n4.删除课程\n5.返回学校管理系统')
-        school_number=int(school_choose2)-1
 
-        if school_choose_manage=='1':
-            imployment_teacher=input('请输入招聘老师的姓名')   #加判断
-            session.add(Teacher(name_school=school_list[school_number], name_teacher=imployment_teacher))
-            session.commit()
-            session.close()
-            print('招聘成功')
-            class_school()
-        elif school_choose_manage=='2':
-            pass
-        elif school_choose_manage=='3':
-            add_course = input('请输入开设的课程')  # 加判断
-            add_course_teacher = input('请输入授课老师')
-            add_course_price = input('请输入课程价格')
-            session.add(Course(name_school=school_list[school_number], name_teacher=add_course_teacher,name_course=add_course,price_course=add_course_price))
-            session.commit()
-            session.close()
-            print('开设课程成功')
-            class_school()
-        elif school_choose_manage=='4':
-            class_school()
-        elif school_choose_manage=='5':
-            class_school()
-        else:
-            print('输入有误，请重新输入')
-            class_school()
+        def sub_school():
+            school_choose_manage = input('请选择管理内容：\n1.招聘老师\n2.解雇老师\n3.开设课程\n4.删除课程\n5.返回学校管理系统')
+            school_number = int(school_choose2) - 1
 
+            if school_choose_manage == '1':
+                imployment_teacher = input('请输入招聘老师的姓名')  # 加判断
+                session.add(Teacher(name_school=school_list[school_number], name_teacher=imployment_teacher))
+                session.commit()
+                session.close()
+                print('招聘成功')
+                sub_school()
+            elif school_choose_manage == '2':
+                sub_school()
+            elif school_choose_manage == '3':
+                add_course = input('请输入开设的课程')  # 加判断
+                add_course_teacher = input('请输入授课老师')
+                add_course_price = input('请输入课程价格')
+                session.add(Course(name_school=school_list[school_number], name_teacher=add_course_teacher,
+                                   name_course=add_course, price_course=add_course_price))
+                session.commit()
+                session.close()
+                print('开设课程成功')
+                sub_school()
+            elif school_choose_manage == '4':
+                sub_school()
+            elif school_choose_manage == '5':
+                class_school()
+            else:
+                print('输入有误，请重新输入')
+                class_school()
+        sub_school()
 
 
     elif school_choose == '4':

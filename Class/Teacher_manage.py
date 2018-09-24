@@ -33,18 +33,29 @@ def class_teacher():
 
     print('********教师管理系统********')
     teacher_name = input('请输入您的名字')
-    school_choose = input('请选择操作： \n1.查看学生信息 \n2.登记学生成绩  \n3.返回上一级')
-    if school_choose == '1':
-        obj1=session.query(Course,Student).join(Student,Course.name_course==Student.name_course).filter(Course.name_teacher==teacher_name).all()
-        # # obj_temp=Course()
-        # # obj_temp=obj1[0]
-        # print(obj_temp.name_course)
-        print('姓名:'+obj1[1].name_student+',所修课程'+obj1[0].name_course)
-    elif school_choose == '2':
-        pass
-    elif school_choose == '3':
-        Views_manage.start_view()
-    else:
-        print('输入有误，请重新输入')
-        class_teacher()
+    def sub_teacher():
+        school_choose = input('请选择操作： \n1.查看学生信息 \n2.登记学生成绩  \n3.返回管理系统')
+        if school_choose == '1':
+            obj1 = session.query(Course, Student).join(Student, Course.name_course == Student.name_course).filter(Course.name_teacher == teacher_name).all()
+            # # obj_temp=Course()
+            # # obj_temp=obj1[0]
+            # print(obj_temp.name_course)
+            print('姓名:' + obj1[0][1].name_student + ',所修课程' + obj1[0][0].name_course)
+            session.commit()
+            session.close()
+            sub_teacher()
+        elif school_choose == '2':
+            student_name = input('学生名字:')
+            student_grade = input('成绩:')
+            obj2 = session.query(Student).filter(Student.name_student == student_name)
+            obj2.one().grade = student_grade
+            session.commit()
+            session.close()
+            sub_teacher()
+        elif school_choose == '3':
+            Views_manage.start_view()
+        else:
+            print('输入有误，请重新输入')
+            sub_teacher()
 
+    sub_teacher()
